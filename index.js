@@ -5,6 +5,9 @@ const app = Express();
 const morgan = require('morgan');
 const helmet = require('helmet');
 const debug = require('debug')('app:startup');
+const mongoose = require('mongoose');
+
+mongoose.connect("mongodb://localhost/vidly").then(() => console.log("Connected to MongoDb...")).catch(err => console.error("Connection to MongoDb was unsuccessful"));
 
 app.use(Express.json());
 app.use(Express.urlencoded({ extended: true }))
