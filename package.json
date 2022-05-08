@@ -21,9 +21,11 @@
     "config": "^3.3.7",
     "debug": "^4.3.4",
     "express": "^4.17.3",
+    "fawn": "^2.1.5",
     "helmet": "^5.0.2",
     "joi": "^13.1.0",
-    "mongoose": "^5.13.14",
+    "joi-objectid": "^4.0.2",
+    "mongoose": "^6.2.2",
     "morgan": "^1.10.0"
   }
 }

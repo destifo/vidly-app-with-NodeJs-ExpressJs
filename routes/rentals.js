@@ -4,6 +4,10 @@ const router = Express.Router();
 const {Customer} = require('../models/Customer');
 const {Movie} = require('../models/Movie');
 const {Rental, validateRental} = require('../models/Rental');
+const Fawn = require('fawn');
+
+Fawn.init(mongoose);
+
 
 router.get('/', async (req, res) => {
     const rentals = await Rental.find();
@@ -30,6 +34,8 @@ router.post('/', (req, res) => {
         const movie = await Movie.findById(movieId);
         if (!movie)
             return res.status(400).send('Invalid Movie');
+        if (movie.numberInStock == 0)
+            return res.status(400).send('Movie out of stock');
 
         return movie;
     });
@@ -53,6 +59,21 @@ router.post('/', (req, res) => {
             title: movie.title,
         });
     }
+
+    let task = new Fawn.Task();
+    task.save('Rental', rental);
+    for (let movie of movies){
+        task.update('Movie', {_id: movie.id}, {
+            $inc: {numberInStock: -1}
+        });
+    }
+    task.run()
+        .then((results) => {
+            console.log(results);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 
     res.send(rental);
 });
