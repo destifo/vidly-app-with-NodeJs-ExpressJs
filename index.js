@@ -4,6 +4,7 @@ const genres = require('./routes/genre');
 const customers = require('./routes/customers');
 const rentals = require('./routes/rentals');
 const movies = require('./routes/movies');
+const users = require('./routes/users');
 const Joi = require('joi');
 Joi.objectId = require('joi-objectid')(Joi);
 
@@ -22,6 +23,7 @@ app.use('/api/genres', genres);
 app.use('/api/customers', customers);
 app.use('/api/rentals', rentals);
 app.use('/api/movies', movies);
+app.use('/api/users', users);
 
 app.use(helmet());
 if (app.get('env') === 'development'){
